@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using NpgSqlBackup.BackupInfo;
 using NpgSqlBackup.Data;
 
@@ -21,7 +20,8 @@ public class BackupController : Controller
 
     public async Task<IActionResult> Index()
     {
-        var backups = Directory.GetFiles(GetBackupPath());
+        var info = new DirectoryInfo(GetBackupPath());
+        var backups = info.GetFiles().OrderByDescending(x => x.LastWriteTimeUtc).Select(x => x.Name).ToArray();
         return View(backups);
     }
 
@@ -37,12 +37,12 @@ public class BackupController : Controller
             data.Password,
             data.DatabaseName,
             backupDir,
-            "Backup_" + remarks.Trim().Replace(" ", "_") + DateTime.Now.ToString("dd_MM_yyyy") + ".bak",
+            "Backup_" + remarks.Trim().Replace(" ", "_") + "_" + DateTime.Now.ToString("dd_MM_yyyy") + ".bak",
             backupCommandDir: _configuration["backup_dir"] ?? ""
         );
         return RedirectToAction("Index");
     }
-    
+
     public async Task<IActionResult> Restore(string backupFile)
     {
         var data = DatabaseInfoExtensions.GetDbInfo(_configuration.GetConnectionString("Default")!);
@@ -75,12 +75,10 @@ public class BackupController : Controller
         {
             Environment.SetEnvironmentVariable(pwdKey, password);
             var dateTime = DateTime.Now.ToString("yyyy_MM_dd HH_mm_ss");
-            var fileName = $"{backupFileName}_{dateTime}";
-            string updatedBackupFileName = $"{fileName}.backup";
 
             Directory.CreateDirectory(backupDir);
 
-            string backupFile = Path.Combine(backupDir, updatedBackupFileName);
+            string backupFile = Path.Combine(backupDir, backupFileName);
 
             string backupString = "-F t -f \"" + backupFile + "\" " +
                                   " -h " + server + " -U " + user + " -p " + port + " -d " + dbname;

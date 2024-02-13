@@ -28,7 +28,7 @@ public class BackupController : Controller
     [HttpPost]
     public async Task<IActionResult> New(string remarks)
     {
-        var data = DatabaseInfoExtensions.GetDbInfo(_context.Database.GetConnectionString());
+        var data = DatabaseInfoExtensions.GetDbInfo(_configuration.GetConnectionString("Default")!);
         var backupDir = GetBackupPath();
         await BackupDatabase(
             data.Server,
@@ -45,7 +45,7 @@ public class BackupController : Controller
     
     public async Task<IActionResult> Restore(string backupFile)
     {
-        var data = DatabaseInfoExtensions.GetDbInfo(_context.Database.GetConnectionString());
+        var data = DatabaseInfoExtensions.GetDbInfo(_configuration.GetConnectionString("Default")!);
         var backupDir = GetBackupPath();
         await RestoreDatabase(
             data.Server,

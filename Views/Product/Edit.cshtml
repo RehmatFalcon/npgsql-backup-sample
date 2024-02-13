@@ -1,0 +1,29 @@
+﻿@model NpgSqlBackup.ViewModels.ProductEditVm
+
+<div class="row">
+    <div class="col-4">
+        <form method="post" class="card">
+            <input type="hidden" asp-for="Id">
+            <div class="card-header">
+                Update Product
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <label asp-for="Name"></label>
+                    <input type="text" asp-for="Name" class="form-control" required>
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description"></label>
+                    <textarea asp-for="Description" class="form-control" rows="5"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button class="btn btn-success">
+                    Save
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,59 @@
+﻿@model string[]
+
+<form method="post" class="card" asp-action="New">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-3">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Backup remarks" name="remarks">
+                </div>
+            </div>
+            <div class="col-3">
+                <button class="btn btn-success">
+                    Perform Backup!
+                </button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="card mt-2">
+    <div class="card-body">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>
+                    SN
+                </th>
+                <th>
+                    Backup
+                </th>
+                <th>
+                    Action
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            @{
+                var sn = 1;
+                foreach (var backup in Model)
+                {
+                    <tr>
+                        <td>
+                            @(sn++)
+                        </td>
+                        <td>
+                            @backup
+                        </td>
+                        <td>
+                            <a asp-action="Restore" asp-route-backupFile="@backup" class="btn btn-primary" onclick="return confirm('Are you sure you want to restore database? This action cannot be reversed')">
+                                Restore database!
+                            </a>
+                        </td>
+                    </tr>
+                }
+            }
+            </tbody>
+        </table>
+    </div>
+</div>

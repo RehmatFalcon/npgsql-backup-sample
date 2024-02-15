@@ -1,6 +1,13 @@
 ﻿FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 USER $APP_UID
 WORKDIR /app
+
+# Create the uploads directory
+#RUN mkdir -p /app/upload_images
+#
+## Set permissions for the uploads directory
+#RUN chmod -R 755 /app/upload_images
+
 EXPOSE 8080
 EXPOSE 8081
 

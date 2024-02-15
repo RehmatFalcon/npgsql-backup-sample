@@ -1,0 +1,22 @@
+# This is a generated file. Not intended for manual editing.
+services:
+  npgsqlbackup:
+    build:
+      context: "D:\\Projects\\Experiments\\NpgSqlBackup"
+      dockerfile: "Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net8.0/NpgSqlBackup.dll"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_STATICWEBASSETS: "/app/bin/Debug/net8.0/NpgSqlBackup.staticwebassets.runtime.CT.json"
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "npgsqlbackup:dev"
+    ports: []
+    volumes:
+    - "C:\\Users\\nirou\\.nuget\\packages:/home/app/.nuget/packages"
+    - "D:\\Projects\\Experiments\\NpgSqlBackup:/app:rw"
+    - "D:\\Projects\\Experiments\\NpgSqlBackup:/src:rw"
+    working_dir: "/app"

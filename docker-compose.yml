@@ -1,0 +1,27 @@
+﻿services:
+  npgsqlbackup:
+    image: npgsqlbackup
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on: 
+      - database
+    ports:
+      - 5153:8080
+    environment:
+      IMAGE_DIR: upload_images
+    volumes:
+#      - image_dir:/app/upload_images
+      - D:/uploads/backup_uploads:/app/wwwroot/uploads
+    
+  database:
+    image: postgres
+    restart: always
+    volumes: 
+      - database:/data/db
+    environment:
+      POSTGRES_PASSWORD: admin
+      PGDATA: /data/db
+volumes:
+  database: 
+#  image_dir:
